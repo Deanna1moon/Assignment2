@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HAIRIFY - My Cart</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Hero Section: Large pale-green area */
+    .hero {
+      background-color: #a8d5ba;
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2em;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    /* Container that overlaps the hero (negative margin) */
+    .cart-container {
+      position: relative;
+      max-width: 1200px;
+      background-color: #fff;
+      margin: -60px auto 0 auto;
+      border-radius: 8px;
+      padding: 2em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Cart list in a responsive grid */
+    .cart-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1em;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 1em;
+      background-color: #fff;
+    }
+    .cart-item img {
+      width: 80px;
+      height: auto;
+      margin-right: 1em;
+    }
+    .cart-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3em;
+    }
+    .item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .quantity-btn {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      font-size: 1.2em;
+      text-align: center;
+      line-height: 30px;
+    }
+    .quantity-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Checkout button */
+    .checkout-section {
+      text-align: center;
+      margin-top: 2em;
+    }
+    .checkout-btn {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.7em 1em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .checkout-btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">---HAIRIFY---</div>
+    <ul class="nav-links">
+      <li><a href="products.html">Home</a></li>
+      <li><a href="AboutUs.html">About Us</a></li>
+      <li><a href="Mycart.html" class="active">My Cart</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>MY CART</h1>
+  </section>
+
+  <div class="cart-container">
+    <div class="cart-list" id="cart-items">
+      <!-- Items will be dynamically inserted here -->
+    </div>
+
+    <div class="checkout-section">
+      <button class="checkout-btn" id="checkoutBtn">CHECKOUT</button>
+    </div>
+  </div>
+
+  <script>
+    // Load cart items from localStorage
+    function loadCart() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let cartItemsDiv = document.getElementById('cart-items');
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      cartItemsDiv.innerHTML = "";
+      cart.forEach((item, index) => {
+        let itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+
+        // Ensure the image path is correct (prepend 'images/' if not already included)
+        let imagePath = item.image.startsWith("images/") ? item.image : `images/${item.image}`;
+
+        itemDiv.innerHTML = `
+          <img src="${imagePath}" alt="${item.name}">
+          <div class="cart-item-info">
+            <p class="item-name">${item.name}</p>
+            <p>Price: $${item.price}</p>
+            <div class="item-quantity">
+              <button class="quantity-btn" onclick="decrementQuantity(${index})">-</button>
+              <span>Qty: ${item.quantity}</span>
+              <button class="quantity-btn" onclick="incrementQuantity(${index})">+</button>
+            </div>
+          </div>
+        `;
+        cartItemsDiv.appendChild(itemDiv);
+      });
+    }
+
+    function incrementQuantity(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].quantity++;
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    function decrementQuantity(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].quantity--;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    // Checkout button functionality (redirect to invoice page)
+    function checkout() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      window.open("invoice.html", "_blank");
+    }
+
+    document.getElementById('checkoutBtn').addEventListener('click', checkout);
+    window.addEventListener('DOMContentLoaded', loadCart);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HAIRIFY - Products</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Your external stylesheet -->
+  <style>
+    /* Hero Section: Large pale-green area */
+    .hero {
+      background-color: #a8d5ba;
+      min-height: 40vh; /* or a fixed height, e.g. 400px */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2em;
+      color: #333;
+    }
+
+    /* Container that overlaps hero with negative margin */
+    .products-container {
+      position: relative;
+      max-width: 1200px;
+      background-color: #fff;
+      margin: -100px auto 0 auto; /* Negative top margin overlaps the hero */
+      border-radius: 8px;
+      padding: 2em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Product grid in a responsive layout */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1em;
+    }
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .product-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .product-image img {
+      width: 90%;
+      height: auto;
+      display: block;
+    }
+    .product-info {
+      padding: 1em;
+      text-align: center;
+    }
+    .product-info h3 {
+      margin-bottom: 0.5em;
+    }
+    .product-info .price {
+      color: #555;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+    .product-actions {
+      display: flex;
+      gap: 0.5em;
+      justify-content: center;
+    }
+    .btn-add-cart {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5em 1em;
+      cursor: pointer;
+    }
+    .btn-add-cart:hover {
+      background-color: #218838;
+    }
+    .btn-favorite {
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5em 1em;
+      cursor: pointer;
+    }
+    .btn-favorite:hover {
+      background-color: #e2e2e2;
+    }
+
+    /* Modal styling (if not already in external CSS) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 1em;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 5px;
+      position: relative;
+    }
+    .close-button {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+    .close-button:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">---HAIRIFY---</div>
+    <ul class="nav-links">
+      <li><a href="products.html" class="active">Products</a></li>
+      <li><a href="AboutUs.html">About Us</a></li>
+      <li><a href="Mycart.html">My Cart</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section (Pale Green) -->
+  <section class="hero">
+    <h1>SHOP FOR THE BEST HAIR PRODUCTS!</h1>
+  </section>
+
+  <!-- Overlapping Container for Product Grid -->
+  <div class="products-container">
+    <!-- Product Grid -->
+    <div class="product-grid">
+      <!-- Product Card 1 -->
+      <div class="product-card"
+           data-name="Mielle's Rosemary Mint Oil"
+           data-price="11"
+           data-image="Images/mielle.jpg"
+           data-description="Experience the invigorating blend of rosemary and mint."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/mielle.jpg" alt="Mielle's Rosemary Mint Oil">
+        </div>
+        <div class="product-info">
+          <h3>Mielle's Rosemary Mint Oil</h3>
+          <p class="price">$11</p>
+          <div class="product-actions">
+            <!-- Add to Cart button on the card -->
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('Mielle\'s Rosemary Mint Oil', 385, 'mielle.jpg');">
+              Add to Cart
+            </button>
+            <!-- Favorite button -->
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 2 -->
+      <div class="product-card"
+           data-name="Wild Growth Hair Oil"
+           data-price="7"
+           data-image="Images/hair1.jpg"
+           data-description="Boost your hair's natural growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair1.jpg" alt="Wild Growth Hair Oil">
+        </div>
+        <div class="product-info">
+          <h3>Wild Growth Hair Oil</h3>
+          <p class="price">$7</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('Wild Growth Hair Oil', 230, 'Images/hair1.jpg');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div>
+      <!-- Product Card 3 -->
+      <div class="product-card"
+           data-name="At One argon oil"
+           data-price="9"
+           data-image="Images/hair1.png"
+           data-description="Boost your hair's natural growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair1.png" alt="At One with nature argon oil">
+        </div>
+        <div class="product-info">
+          <h3>At one with nature Argon Oil</h3>
+          <p class="price">$9</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('At One argon oil', 9, 'Images/hair1.png');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div>
+ <!-- Product Card 4 -->
+      <div class="product-card"
+           data-name="As I am-Leave in Conditioner"
+           data-price="9"
+           data-image="Images/hair2.jpg"
+           data-description="Boost your hair's softness anf growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair2.jpg" alt="As I am-Leave in Conditioner">
+        </div>
+        <div class="product-info">
+          <h3>As I am-Leave in Conditioner</h3>
+          <p class="price">$9</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('As I am-Leave in Conditioner', 9, 'Images/hair2.jpg');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div>
+<!-- Product Card 5 -->
+      <div class="product-card"
+           data-name="As I am-Coconut Cowash"
+           data-price="10"
+           data-image="Images/hair3.png"
+           data-description="Boost your hair's softness anf growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair3.png" alt="As I am-Coconut Cowash">
+        </div>
+        <div class="product-info">
+          <h3>As I am-Coconut Wash</h3>
+          <p class="price">$9</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('As I am-Coconut Cowash', 10, 'Images/hair3.png');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div> 
+	  
+	  
+	  
+	  <!-- Product Card 6 -->
+      <div class="product-card"
+           data-name="Jamaican Mango & Lime-Black Cator Oil"
+           data-price="5"
+           data-image="Images/hair6.jpg"
+           data-description="Boost your hair's softness anf growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair6.jpg" alt="Jamaican Mango & Lime-Black Cator Oil">
+        </div>
+        <div class="product-info">
+          <h3>Jamaican  Cator Oil</h3>
+          <p class="price">$5</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('Jamaican Mango & Lime-Black Cator Oil', 5, 'Images/hair6.jpg');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div> 
+  
+  	  <!-- Product Card 7 -->
+      <div class="product-card"
+           data-name="Monat Shampoo+ Conditioner"
+           data-price="5"
+           data-image="Images/hair7.png"
+           data-description="Boost your hair's softness anf growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair7.png" alt="Monat Shampoo+ Conditioner">
+        </div>
+        <div class="product-info">
+          <h3>Monat Shampoo+ Conditioner</h3>
+          <p class="price">$5</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('Monat Shampoo+ Conditioner', 5, 'Images/hair7.png');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div> 
+  
+ 
+  
+  
+  
+  	  <!-- Product Card 8 -->
+      <div class="product-card"
+           data-name="Tresemme"
+           data-price="6"
+           data-image="Images/hair8.png"
+           data-description="Boost your hair's softness anf growth with our potent formula."
+           onclick="showProductDetails(this)">
+        <div class="product-image">
+          <img src="Images/hair8.png" alt="Tresemme">
+        </div>
+        <div class="product-info">
+          <h3>Tresseme</h3>
+          <p class="price">$6</p>
+          <div class="product-actions">
+            <button class="btn-add-cart"
+                    onclick="event.stopPropagation(); addToCart('Tresemme', 6, 'Images/hair8.png');">
+              Add to Cart
+            </button>
+            
+          </div>
+        </div>
+      </div> 
+  
+ 
+    </div>
+  </div>
+
+
+  <!-- Modal for Product Details (Optional) -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">&times;</span>
+      <div id="modal-product-details">
+        <!-- Modal product details will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal JavaScript for Modal and Cart -->
+  <script>
+    // Show product details in a modal when the user clicks on the card
+    function showProductDetails(card) {
+      const name = card.getAttribute('data-name');
+      const price = card.getAttribute('data-price');
+      const image = card.getAttribute('data-image');
+      const description = card.getAttribute('data-description');
+
+      const modalDetails = document.getElementById('modal-product-details');
+      modalDetails.innerHTML = `
+        <h2>${name}</h2>
+        <img src="${image}" alt="${name}" style="max-width:100%;">
+        <p class="price">$${price}</p>
+        <p>${description}</p>
+        <button class="btn-add-cart" onclick="addToCart('${name}', ${price}, '${image}'); closeModal();">
+          Add to Cart
+        </button>
+      `;
+
+      document.getElementById('product-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('product-modal').style.display = 'none';
+    }
+
+    // Check if user is logged in only when Add to Cart is clicked
+    function addToCart(name, price, image) {
+      // Is the user logged in?
+      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+      if (!loggedInUser) {
+        alert("You must log in first.");
+        window.location.href = "login.html";
+        return; // Stop here
+      }
+
+      // If logged in, proceed with adding to cart
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let existingItem = cart.find(item => item.name === name);
+
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ name, price, image, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} has been added to your cart!`);
+    }
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('product-modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>

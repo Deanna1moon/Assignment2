@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - HAIRIFY</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+
+
+
+
+    /* Hero section with a fixed height */
+    .hero {
+      background-color: #a8d5ba;
+      height: 300px; /* Adjust to your liking */
+      position: relative;
+      text-align: center;
+      padding-top: 2em; /* Space for heading */
+    }
+    .hero h1 {
+      margin-bottom: 1em;
+      font-size: 2em;
+      color: #333;
+    }
+
+    /* Overlapping image */
+    .hero img {
+      width: 400px; /* Adjust size as needed */
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+      position: absolute;  /* Absolutely position the image */
+      left: 50%;           /* Center horizontally */
+      transform: translateX(-50%);
+      bottom: -200px;       /* Overlap the bottom of the hero */
+    }
+
+    /* Info section with top margin to accommodate overlap */
+    .info-section {
+      background-color: #fff;
+      padding: 3em 2em;
+      margin-top: 160px; /* Enough space to clear the overlapping image */
+    }
+    .info-container {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .info-container p {
+      margin-bottom: 1em;
+      font-size: 1.1em;
+    }
+    .info-container a {
+      color: #28a745;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .info-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="navbar">
+    <div class="logo">---HAIRIFY---</div>
+    <ul class="nav-links">
+	  <li><a href="Products.html">Products</a></li>
+      <li><a href="AboutUS.html" class="active">About Us</a></li>
+	  <li><a href="MyCart.html">My Cart</a></li>
+    </ul>
+  </nav>
+
+
+  <section class="hero">
+    <h1>About Us</h1>
+ 
+    <img src="Images/logo.png" alt="Our Team" width ="300px">
+  </section>
+
+
+  <section class="info-section">
+    <div class="info-container">
+   
+  
+      <p><strong>Full name & ID:</strong> Deanna Brown 2407306</p>
+      <p><strong>Email:</strong>
+        <a href="mailto:DEANNAABROWN@Students.utech.edu.jm">DEANNAABROWN@Students.utech.edu.jm</a>
+      </p>
+      <p><strong>Module Code:</strong> CIT2011 </p>
+      <p><strong>Assignment Name:</strong> E-Commerce Website Assignment 2</p>
+      <p><strong>Class Schedule:</strong>Monday 12 pm</p>
+      <p>
+        If you have any comments or queries, feel free to
+        <a href="mailto:DEANNAABROWN@Students.utech.edu.jm">contact us via email</a>.
+      </p>
+    </div>
+  </section>
+</body>
+</html>
