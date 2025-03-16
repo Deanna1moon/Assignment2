@@ -139,7 +139,7 @@
         itemDiv.classList.add('cart-item');
 
         // Ensure the image path is correct (prepend 'images/' if not already included)
-        let imagePath = item.image.startsWith("images/") ? item.image : `images/${item.image}`;
+        let imagePath = item.image.startsWith("Images/") ? item.image : `Images/${item.image}`;
 
         itemDiv.innerHTML = `
           <img src="${imagePath}" alt="${item.name}">
