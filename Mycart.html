@@ -267,7 +267,7 @@
       const filteredCart = cart.filter((_, i) => selectedItems[i]);
       if (!filteredCart.length) return alert("Please select at least one item.");
       localStorage.setItem('checkoutCart', JSON.stringify(filteredCart));
-      window.location.href = "checkout.html";
+      window.location.href = "Checkout.html";
     }
 
     document.getElementById('checkoutBtn').addEventListener('click', checkout);
