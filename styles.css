@@ -34,7 +34,7 @@ body {
 
 .logo {
     font-size: 30px;
-    color:  green;
+    color:  red;
 }
 
 .nav-links {
@@ -60,7 +60,7 @@ h1 {
     font-weight: bold;
     font-size: 20px;
     padding : 10px;
-    background:  #a8d5ba;
+    background:  red;
     margin-bottom: 10px;
 
 
