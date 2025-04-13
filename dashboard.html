@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background: #eaf3fb;
+position: relative;
+}
+
+/* Background Slideshow Styles */
+.background-slideshow {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+overflow: hidden;
+}
+
+.slide {
+position: absolute;
+width: 100%;
+height: 100%;
+background-size: cover;
+background-position: center;
+opacity: 0;
+transition: opacity 1.5s ease-in-out;
+}
+
+.slide.active {
+opacity: 0.5; /* Adjust opacity to make sure content is readable */
+}
+
+.dashboard {
+display: grid;
+grid-template-areas:
+"header header"
+"ask bottle"
+"profit state";
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+padding: 20px;
+max-width: 1200px;
+margin: auto;
+background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white to improve readability */
+border-radius: 10px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+h1 {
+grid-area: header;
+background: red;
+color: #fff;
+padding: 10px 20px;
+border-radius: 8px;
+margin: 0;
+font-size: 28px;
+}
+.ask-section, .profit-section, .state-section, .bottle-img {
+background: #fff;
+border-radius: 10px;
+padding: 15px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+transition: transform 0.3s ease-in-out;
+}
+.ask-section:hover, .profit-section:hover, .state-section:hover {
+transform: scale(1.02);
+}
+.ask-section { grid-area: ask; }
+.profit-section { grid-area: profit; }
+.state-section { grid-area: state; }
+.bottle-img { 
+grid-area: bottle; 
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+h2 { margin-bottom: 10px; color: #f40009; }
+.search-container { margin-bottom: 15px; }
+input[type="text"] {
+padding: 8px;
+border: 1px solid #ddd;
+border-radius: 4px;
+margin-right: 10px;
+}
+button {
+background: #f40009;
+color: #fff;
+padding: 8px 12px;
+border: none;
+border-radius: 20px;
+cursor: pointer;
+font-size: 14px;
+}
+button:hover { opacity: 0.9; }
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 10px;
+}
+th, td {
+padding: 8px;
+text-align: left;
+border-bottom: 1px solid #ddd;
+}
+th { background: #f9f9f9; }
+
+.chart-container {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+margin-top: 15px;
+}
+.chart { flex: 1; min-width: 300px; }
+
+.pie-charts-container {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+justify-content: center;
+width: 100%;
+}
+
+.pie-chart-wrapper {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin: 10px;
+}
+
+.pie-title {
+text-align: center;
+margin-bottom: 10px;
+color: #f40009;
+font-weight: bold;
+}
+
+.pie-chart {
+width: 200px;
+height: 200px;
+border-radius: 50%;
+position: relative;
+overflow: hidden;
+}
+
+.pie-legend {
+margin-top: 10px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 8px;
+}
+
+.legend-item {
+display: flex;
+align-items: center;
+font-size: 12px;
+}
+
+.legend-color {
+width: 12px;
+height: 12px;
+margin-right: 5px;
+border-radius: 3px;
+}
+
+.hidden {
+display: none;
+}
+</style>
+</head>
+<body>
+<!-- Background Slideshow -->
+<div class="background-slideshow">
+<div class="slide" style="background-image: url('slide1.jpg');"></div>
+<div class="slide" style="background-image: url('slide2.jpg');"></div>
+<div class="slide" style="background-image: url('slide3.jpg');"></div>
+<div class="slide" style="background-image: url('slide4.jpg');"></div>
+<div class="slide" style="background-image: url('slide5.jpg');"></div>
+</div>
+
+<!-- Dashboard Content -->
+<div class="dashboard">
+<h1>Dashboard</h1>
+
+<div class="ask-section">
+<h2>User Frequency</h2>
+<div class="search-container">
+<button id="toggleStatsBtn" onclick="toggleUserStats()">Show User Statistics</button>
+</div>
+<div class="chart-container hidden" id="userStats"></div>
+</div>
+
+<div class="pie-charts-container" id="pieChartsContainer">
+<div class="pie-charts-container hidden" id="pieCharts"></div>
+</div>
+
+<div class="profit-section">
+<h2>Invoice Search</h2>
+<div class="search-container">
+<input type="text" id="trnSearch" placeholder="Enter TRN to search invoices">
+<button onclick="ShowInvoices()">Search Invoices</button>
+</div>
+<div id="invoiceResults"></div>
+</div>
+
+<div class="state-section">
+<h2>User Invoices</h2>
+<div class="search-container">
+<input type="text" id="userTrn" placeholder="Enter User TRN">
+<button onclick="GetUserInvoices()">Get User Invoices</button>
+</div>
+<div id="userInvoiceResults"></div>
+</div>
+</div>
+
+<script>
+let statsVisible = false;
+let currentSlide = 0;
+
+function toggleUserStats() {
+statsVisible = !statsVisible;
+const btn = document.getElementById('toggleStatsBtn');
+const statsDiv = document.getElementById('userStats');
+const pieChartsDiv = document.getElementById('pieCharts');
+
+if (statsVisible) {
+btn.textContent = 'Hide User Statistics';
+statsDiv.classList.remove('hidden');
+pieChartsDiv.classList.remove('hidden');
+ShowUserFrequency();
+} else {
+btn.textContent = 'Show User Statistics';
+statsDiv.classList.add('hidden');
+pieChartsDiv.classList.add('hidden');
+}
+}
+
+function initializeSampleData() {
+if (!localStorage.getItem('RegisterData')) {
+const sampleUsers = [
+{ trn: '123456789', name: 'Kemar Hinds', gender: 'Male', age: 28 },
+{ trn: '987654321', name: 'Janet Miles', gender: 'Female', age: 25 },
+{ trn: '456789123', name: 'Alexis John', gender: 'Other', age: 22 },
+{ trn: '789123456', name: 'Sarah Lewis', gender: 'Female', age: 32 },
+{ trn: '321654987', name: 'Aston Thomas', gender: 'Male', age: 19 },
+{ trn: '654987321', name: 'Kyle Taylor', gender: 'Other', age: 31 }
+];
+localStorage.setItem('RegisterData', JSON.stringify(sampleUsers));
+}
+
+if (!localStorage.getItem('AllInvoices')) {
+const sampleInvoices = [
+{ trn: '123456789', invoiceId: 'INV001', date: '2025-05-15', amount: 150.00 },
+{ trn: '123456789', invoiceId: 'INV002', date: '2025-06-20', amount: 75.50 },
+{ trn: '987654321', invoiceId: 'INV003', date: '2025-05-18', amount: 200.00 },
+{ trn: '456789123', invoiceId: 'INV004', date: '2025-07-01', amount: 89.99 },
+{ trn: '789123456', invoiceId: 'INV005', date: '2025-06-15', amount: 120.00 },
+{ trn: '321654987', invoiceId: 'INV006', date: '2025-07-10', amount: 45.25 },
+{ trn: '654987321', invoiceId: 'INV007', date: '2025-05-30', amount: 180.75 }
+];
+localStorage.setItem('AllInvoices', JSON.stringify(sampleInvoices));
+}
+}
+
+function createPieChart(data, title, colors) {
+// Create container elements
+const container = document.createElement('div');
+container.className = 'pie-chart-wrapper';
+  
+// Add title
+const titleElement = document.createElement('h3');
+titleElement.className = 'pie-title';
+titleElement.textContent = title;
+container.appendChild(titleElement);
+  
+// Create pie chart using conic-gradient
+const chartElement = document.createElement('div');
+chartElement.className = 'pie-chart';
+  
+// Calculate gradient stops
+const total = Object.values(data).reduce((sum, val) => sum + val, 0);
+let cumulativePercent = 0;
+const gradientStops = Object.entries(data).map(([_, value], i) => {
+const percent = (value / total) * 100;
+const stop = `${colors[i % colors.length]} ${cumulativePercent}% ${cumulativePercent += percent}%`;
+return stop;
+});
+  
+chartElement.style.background = `conic-gradient(${gradientStops.join(', ')})`;
+container.appendChild(chartElement);
+  
+// Add legend
+const legendElement = document.createElement('div');
+legendElement.className = 'pie-legend';
+  
+Object.entries(data).forEach(([label, value], i) => {
+const percent = Math.round((value / total) * 100);
+legendElement.innerHTML += `
+<div class="legend-item">
+<span class="legend-color" style="background:${colors[i % colors.length]}"></span>
+${label}: ${value} (${percent}%)
+</div>
+`;
+});
+  
+container.appendChild(legendElement);
+return container;
+}
+
+function ShowUserFrequency() {
+initializeSampleData();
+const users = JSON.parse(localStorage.getItem('RegisterData'));
+const genderCounts = { Male: 0, Female: 0, Other: 0 };
+const ageGroups = { '18-25': 0, '26-35': 0, '36-50': 0, '50+': 0 };
+
+users.forEach(user => {
+genderCounts[user.gender]++;
+if (user.age >= 18 && user.age <= 25) ageGroups['18-25']++;
+else if (user.age <= 35) ageGroups['26-35']++;
+else if (user.age <= 50) ageGroups['36-50']++;
+else ageGroups['50+']++;
+});
+
+const userStatsDiv = document.getElementById('userStats');
+userStatsDiv.innerHTML = `
+<div class="chart">
+<h3>Gender Distribution</h3>
+<table>
+<thead><tr><th>Gender</th><th>Count</th></tr></thead>
+<tbody>${Object.entries(genderCounts).map(([gender, count]) => `<tr><td>${gender}</td><td>${count}</td></tr>`).join('')}</tbody>
+</table>
+</div>
+<div class="chart">
+<h3>Age Group Distribution</h3>
+<table>
+<thead><tr><th>Age Group</th><th>Count</th></tr></thead>
+<tbody>${Object.entries(ageGroups).map(([group, count]) => `<tr><td>${group}</td><td>${count}</td></tr>`).join('')}</tbody>
+</table>
+</div>`;
+
+const pieChartsContainer = document.getElementById('pieCharts');
+pieChartsContainer.innerHTML = '';
+
+const genderChart = createPieChart(
+genderCounts, 
+'Gender Distribution', 
+['#ff6384', '#36a2eb', '#ffce56']
+);
+pieChartsContainer.appendChild(genderChart);
+
+const ageChart = createPieChart(
+ageGroups, 
+'Age Group Distribution', 
+['#4bc0c0', '#9966ff', '#ff9f40', '#8ac249']
+);
+pieChartsContainer.appendChild(ageChart);
+}
+
+function ShowInvoices() {
+initializeSampleData();
+const trn = document.getElementById('trnSearch').value.trim();
+const invoices = JSON.parse(localStorage.getItem('AllInvoices'));
+const filteredInvoices = trn ? invoices.filter(i => i.trn.includes(trn)) : invoices;
+
+const resultsDiv = document.getElementById('invoiceResults');
+resultsDiv.innerHTML = filteredInvoices.length === 0
+? '<p>No invoices found.</p>'
+: `<table><thead><tr><th>Invoice ID</th><th>TRN</th><th>Date</th><th>Amount</th></tr></thead><tbody>${
+filteredInvoices.map(i => `<tr><td>${i.invoiceId}</td><td>${i.trn}</td><td>${i.date}</td><td>$${i.amount.toFixed(2)}</td></tr>`).join('')
+}</tbody></table>`;
+}
+
+function GetUserInvoices() {
+initializeSampleData();
+const trn = document.getElementById('userTrn').value.trim();
+const invoices = JSON.parse(localStorage.getItem('AllInvoices'));
+const userInvoices = invoices.filter(i => i.trn === trn);
+
+const resultsDiv = document.getElementById('userInvoiceResults');
+resultsDiv.innerHTML = userInvoices.length === 0
+? '<p>No invoices found for this user.</p>'
+: `<h3>Invoices for TRN: ${trn}</h3><table><thead><tr><th>Invoice ID</th><th>Date</th><th>Amount</th></tr></thead><tbody>${
+userInvoices.map(i => `<tr><td>${i.invoiceId}</td><td>${i.date}</td><td>$${i.amount.toFixed(2)}</td></tr>`).join('')
+}</tbody></table>`;
+}
+
+function handleRegistration(registrationData) {
+let users = JSON.parse(localStorage.getItem('RegisterData')) || [];
+const existingUserIndex = users.findIndex(user => user.trn === registrationData.trn);
+
+if (existingUserIndex !== -1) {
+users[existingUserIndex] = registrationData;
+} else {
+users.push(registrationData);
+}
+
+localStorage.setItem('RegisterData', JSON.stringify(users));
+alert('Registration successful!');
+window.location.href = 'dashboard new v2.html';
+}
+
+// Slideshow functionality
+function startSlideshow() {
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+  
+function showSlide(index) {
+slides.forEach(slide => slide.classList.remove('active'));
+slides[index].classList.add('active');
+}
+  
+function nextSlide() {
+currentSlide = (currentSlide + 1) % totalSlides;
+showSlide(currentSlide);
+}
+  
+// Initialize first slide
+showSlide(currentSlide);
+  
+// Change slide every 5 seconds
+setInterval(nextSlide, 5000);
+}
+
+window.onload = function() {
+initializeSampleData();
+startSlideshow(); // Start the background slideshow
+  
+const urlParams = new URLSearchParams(window.location.search);
+const registrationData = urlParams.get('registrationData');
+
+if (registrationData) {
+try {
+const data = JSON.parse(decodeURIComponent(registrationData));
+handleRegistration(data);
+} catch (e) {
+console.error('Error parsing registration data:', e);
+}
+}
+};
+</script>
+</body>
+</html>
