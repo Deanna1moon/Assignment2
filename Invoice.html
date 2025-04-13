@@ -2,194 +2,179 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HAIRIFY - Invoice</title>
+  <title>Invoice</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Overall styling */
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #f8f8f8;
       font-family: Arial, sans-serif;
-      color: #333;
-    }
-    /* Invoice container with a unique watermark pseudo-element */
-    .invoice-container {
-      max-width: 800px;
-      margin: 2em auto;
-      padding: 2em;
+      padding: 40px;
       background-color: #fff;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-    .invoice-container::before {
-      content: "HAIRIFY";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 4em;
-      color: rgba(40, 167, 69, 0.1); /* translucent green watermark */
-      pointer-events: none;
+      color: #000;
     }
     .invoice-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1em;
-      border-bottom: 2px solid #28a745;
-      padding-bottom: 0.5em;
     }
-    .invoice-header h1 {
-      margin: 0;
-      font-size: 2em;
-      color: #28a745;
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: red;
     }
-    .invoice-details {
-      margin-bottom: 1em;
+    .info-section {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
-    .invoice-details p {
-      margin: 0.2em 0;
+    .info-box {
+      width: 30%;
+      margin-bottom: 20px;
     }
-    table.invoice-table {
+    table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 1em;
+      margin-top: 30px;
     }
-    table.invoice-table th,
-    table.invoice-table td {
-      border: 1px solid #ddd;
-      padding: 0.5em;
-      text-align: left;
+    table th, table td {
+      border: 1px solid #000;
+      padding: 10px;
+      text-align: center;
     }
-    table.invoice-table th {
-      background-color: #28a745;
-      color: #fff;
+    .totals {
+      margin-top: 20px;
+      float: right;
+      width: 40%;
     }
-    .invoice-summary {
-      text-align: right;
-      margin-top: 1em;
-    }
-    .invoice-summary p {
-      margin: 0.5em 0;
-      font-size: 1.1em;
-    }
-    .button-group {
+    .totals div {
       display: flex;
-      justify-content: flex-end;
-      gap: 1em;
-      margin-top: 1em;
+      justify-content: space-between;
+      padding: 6px 0;
     }
-    .button-group button {
-      padding: 0.7em 1em;
-      font-size: 1em;
+    .signature {
+      margin-top: 80px;
+      float: right;
+      text-align: right;
+      font-style: italic;
+    }
+    .email-button {
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+    }
+    button {
+      background-color: red;
+      color: white;
       border: none;
-      border-radius: 4px;
+      padding: 12px 20px;
+      font-size: 16px;
       cursor: pointer;
+      border-radius: 8px;
     }
-    .btn-cancel {
-      background-color: #ff6b6b;
-      color: #fff;
-    }
-    .btn-cancel:hover {
-      background-color: #e63946;
-    }
-    .btn-exit {
-      background-color: #6c63ff;
-      color: #fff;
-    }
-    .btn-exit:hover {
-      background-color: #574ddc;
+    button:hover {
+      background-color: darkred;
     }
   </style>
 </head>
 <body>
-  <div class="invoice-container">
-    <div class="invoice-header">
-      <h1>Invoice</h1>
-      <div class="invoice-meta">
-        <p>Date: <span id="invoice-date"></span></p>
-        <p>Invoice No: <span id="invoice-number"></span></p>
-      </div>
+  <div class="invoice-header">
+    <div class="logo">HAIRIFY</div>
+  </div>
+
+  <div class="info-section">
+    <div class="info-box">
+      <strong>BILLING TO:</strong><br>
+      <div id="billTo"></div>
     </div>
- 
-    <table class="invoice-table">
-      <thead>
-        <tr>
-          <th>Item #</th>
-          <th>Description</th>
-          <th>Qty</th>
-          <th>Price</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody id="invoice-items">
-     
-      </tbody>
-    </table>
-    <div class="invoice-summary">
-      <p><strong>Total:</strong> $<span id="invoice-total"></span></p>
-      <p><strong>Discount:</strong> $<span id="invoice-discount"></span></p>
-      <p><strong>Grand Total:</strong> $<span id="invoice-grand-total"></span></p>
+    <div class="info-box">
+      <strong>DATE PURCHASED:</strong><br>
+      <div id="invoiceDate"></div>
     </div>
-    <div class="button-group">
-      <button class="btn-cancel" onclick="cancelInvoice()">Cancel</button>
-      <button class="btn-exit" onclick="exitInvoice()">Exit</button>
+    <div class="info-box">
+      <strong>ORDER NO: </strong><br>
+      <div id="orderNumber"></div>
     </div>
   </div>
 
+  <table>
+    <thead>
+      <tr>
+        <th>QTY</th>
+        <th>DESCRIPTION</th>
+        <th>UNIT PRICE</th>
+        <th>AMOUNT</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceItems"></tbody>
+  </table>
+
+  <div class="totals" id="totalsBox"></div>
+
+  <div class="email-button">
+    <button onclick="sendReceipt()">Send Receipt to Email</button>
+  </div>
+
   <script>
-  
-    const invoiceData = {
-      date: new Date().toLocaleDateString(),
-      invoiceNumber: Math.floor(Math.random() * 1000000),
-   
-      items: JSON.parse(localStorage.getItem('cart')) || [],
-      discount: 0
-    };
+    function generateOrderNumber() {
+      const saved = localStorage.getItem('orderNumber');
+      if (saved) return saved;
+      const randomOrder = 'HF' + Math.floor(100000 + Math.random() * 900000);
+      localStorage.setItem('orderNumber', randomOrder);
+      return randomOrder;
+    }
 
-    let total = 0;
-    invoiceData.items.forEach(item => {
-      total += item.price * item.quantity;
-    });
+    function loadInvoice() {
+      const cart = JSON.parse(localStorage.getItem('checkoutCart')) || [];
+      const checkoutDetails = JSON.parse(localStorage.getItem('checkoutDetails')) || {};
+      const name = checkoutDetails.fullname || 'Customer';
+      const address = checkoutDetails.address || 'Address not provided';
+      const date = new Date();
+      const orderNumber = generateOrderNumber();
 
+      document.getElementById('billTo').innerHTML = `${name}<br>${address}`;
+      document.getElementById('invoiceDate').innerText = date.toLocaleDateString();
+      document.getElementById('orderNumber').innerText = orderNumber;
 
-    invoiceData.discount = total > 500 ? total * 0.1 : 0;
-    const grandTotal = total - invoiceData.discount;
+      let total = 0;
+      const tbody = document.getElementById('invoiceItems');
+      tbody.innerHTML = '';
 
-    document.getElementById('invoice-date').textContent = invoiceData.date;
-    document.getElementById('invoice-number').textContent = invoiceData.invoiceNumber;
+      cart.forEach(item => {
+        const subTotal = item.price * item.quantity;
+        total += subTotal;
+        tbody.innerHTML += `
+          <tr>
+            <td>${item.quantity}</td>
+            <td>${item.name}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>$${subTotal.toFixed(2)}</td>
+          </tr>
+        `;
+      });
 
-    const tbody = document.getElementById('invoice-items');
-    invoiceData.items.forEach((item, index) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${item.name}</td>
-        <td>${item.quantity}</td>
-        <td>$${item.price.toFixed(2)}</td>
-        <td>$${(item.price * item.quantity).toFixed(2)}</td>
+      const tax = total * 0.15;
+      const discount = total > 500 ? total * 0.1 : 0;
+      const grandTotal = total + tax - discount;
+
+      document.getElementById('totalsBox').innerHTML = `
+        <div><span>Subtotal:</span><span>$${total.toFixed(2)}</span></div>
+        <div><span>Tax (15%):</span><span>$${tax.toFixed(2)}</span></div>
+        <div><span>Discount:</span><span>-$${discount.toFixed(2)}</span></div>
+        <div><strong>TOTAL:</strong><strong>$${grandTotal.toFixed(2)}</strong></div>
       `;
-      tbody.appendChild(row);
-    });
+    }
 
-    document.getElementById('invoice-total').textContent = total.toFixed(2);
-    document.getElementById('invoice-discount').textContent = invoiceData.discount.toFixed(2);
-    document.getElementById('invoice-grand-total').textContent = grandTotal.toFixed(2);
-
-    function cancelInvoice() {
-      if (confirm("Are you sure you want to cancel your invoice? This will clear your cart.")) {
-        localStorage.removeItem('cart');
-        window.location.href = "Mycart.html";
+    function sendReceipt() {
+      const email = prompt("Enter your email to receive the receipt:");
+      if (email && email.includes("@")) {
+        console.log(`Sending receipt to: ${email}`);
+        alert(`Receipt has been sent to ${email}`);
+      } else if (email) {
+        alert("Please enter a valid email address.");
       }
     }
 
-
-    function exitInvoice() {
-      window.close();
-    }
+    loadInvoice();
   </script>
 </body>
 </html>
