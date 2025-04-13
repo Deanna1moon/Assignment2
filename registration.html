@@ -27,13 +27,29 @@
 
     body{
         min-height: 100vh;
-        background-image: url(background.png);
+        background-image: url(Images/background.png);
         background-size: cover;
         background-position: right;
-        overflow: hidden;
+        overflow-y: auto;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .header-banner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background-color: red;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        z-index: 1;
     }
 
     .wrapper{
@@ -47,6 +63,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding-top: 180px;
     }
 
     h1{
@@ -58,7 +75,7 @@
     form{
         width: min(400px, 100%);
         margin-top: 20px;
-        margin-bottom: 50px;
+        margin-bottom: 60px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -86,7 +103,7 @@
         font-weight: 500;
     }
 
-    form input{
+    form input, form select{
         box-sizing: border-box;
         flex-grow: 1;
         min-width: 0;
@@ -100,7 +117,7 @@
         transition: 150ms ease-in-out;
     }
 
-    form input:hover{
+    form input:hover, form select:hover{
         border: 2px solid var(--accent-color);
     }
 
@@ -118,6 +135,7 @@
   </style>
 </head>
 <body>
+  <div class="header-banner">--HAIRIFY</div>
   <div class="wrapper">
     <h1>Sign Up</h1>
     <form id="signup-form" novalidate>
@@ -139,15 +157,25 @@
 
       <div>
         <label for="trn-input">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 120q-100 0-170-70T40-480q0-100 70-170t170-70q81 0 141.5 46T506-560h335l79 79-140 160-100-79-80 80-80-80h-14q-25 72-87 116t-139 44Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3">
+            <path d="M280-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 120q-100 0-170-70T40-480q0-100 70-170t170-70q81 0 141.5 46T506-560h335l79 79-140 160-100-79-80 80-80-80h-14q-25 72-87 116t-139 44Z"/>
+          </svg>
         </label>
-        <input type="text" name="trn" id="trn-input" placeholder="123456789" pattern="\d{9}" title="TRN must be 9 digits" required />
+        <input type="text" name="trn" id="trn-input" placeholder="123-456-789" pattern="\d{3}-\d{3}-\d{3}" title="TRN must be in the format 123-456-789" required />
       </div>
 
       <div>
-        <label for="age-input">
-        </label>
+        <label for="age-input"></label>
         <input type="number" name="age" id="age-input" placeholder="Age" min="18" max="120" required />
+      </div>
+
+      <div>
+        <label for="gender-input">G</label>
+        <select name="gender" id="gender-input" required>
+          <option value="" disabled selected>Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
       </div>
 
       <div>
@@ -181,12 +209,13 @@
       const email = document.getElementById("email-input").value.trim();
       const trn = document.getElementById("trn-input").value.trim();
       const age = parseInt(document.getElementById("age-input").value);
+      const gender = document.getElementById("gender-input").value;
       const password = document.getElementById("password-input").value;
       const repeatPassword = document.getElementById("repeat-password-input").value;
 
-      const trnRegex = /^\d{9}$/;
+      const trnRegex = /^\d{3}-\d{3}-\d{3}$/;
       if (!trnRegex.test(trn)) {
-          alert("TRN must be exactly 9 digits.");
+          alert("TRN must be in the format 123-456-789.");
           return;
       }
 
@@ -205,6 +234,7 @@
           email,
           trn,
           age,
+          gender,
           password
       };
 
@@ -221,6 +251,18 @@
 
       alert("Registration successful!");
       document.getElementById("signup-form").reset();
+    });
+
+    const trnInput = document.getElementById("trn-input");
+    trnInput.addEventListener("input", function () {
+      let value = this.value.replace(/\D/g, "").slice(0, 9);
+      if (value.length >= 6) {
+        this.value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1-$2-$3").replace(/-$/, "");
+      } else if (value.length >= 3) {
+        this.value = value.replace(/(\d{3})(\d{0,3})/, "$1-$2").replace(/-$/, "");
+      } else {
+        this.value = value;
+      }
     });
   </script>
 </body>
