@@ -178,14 +178,15 @@
     <button class="login-btn" onclick="handleLogin()">Login</button>
      <p>Register to get Member's Only Discounts! <a href="registration.html">Register</a> </p>
   </div>
+  
+  //<script>
+      //const validUser = {
+     // username: "admin",
+      //password: "password123"
+    //};
+  
 
-  <script>
-      const validUser = {
-      username: "admin",
-      password: "password123"
-    };
-
-    let loginAttempts = 0;
+    /*let loginAttempts = 0;
 
     function handleLogin() {
       const username = document.getElementById('username').value.trim();
@@ -210,7 +211,53 @@
         }
       }
     }
-  </script>
+  //</script>
+  */
+//JS WITH PASSWORD RESET
+<script>
+  const validUser = {
+    username: "admin",
+    password: "password123"
+  };
+
+  let loginAttempts = 0;
+
+  function handleLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('error-msg');
+
+    if (!username || !password) {
+      errorMsg.textContent = "Please enter both username and password.";
+      return;
+    }
+
+    if (username === validUser.username && password === validUser.password) {
+      localStorage.setItem('loggedInUser', JSON.stringify({ username }));
+      window.location.href = "products.html";
+    } else {
+      loginAttempts++;
+      errorMsg.textContent = "Invalid username or password. Please try again.";
+
+      if (loginAttempts >= 3) {
+        alert("Too many failed attempts. Redirecting to reset password page.");
+        window.location.href = "reset-password.html";
+      }
+    }
+  }
+
+  function resetPassword() {
+    const newPassword = prompt("Enter your new password:");
+    if (newPassword) {
+      validUser.password = newPassword;
+      alert("Password has been reset successfully.");
+      loginAttempts = 0; // Reset login attempts after password reset
+    } else {
+      alert("Password reset cancelled.");
+    }
+  }
+</script>
+
 
 </body>
 </html>
