@@ -6,6 +6,7 @@
   <title>HAIRIFY - Login</title>  
 
   <style>
+    /*CSS for the body of the login page*/
     body {
       font-family: Arial, sans-serif;
       color: #333;
@@ -21,12 +22,12 @@
       transform: translateY(-10px);
       animation: fadeIn 1s ease-in-out forwards;
     }
-
+    /*Transition for the content of the login page*/
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+      /* CSS for hero section*/
     .hero {
       background-color: rgba(255, 0, 0, 0.8);
       display: flex;
@@ -54,6 +55,7 @@
       margin-right: 30%;
     }
 
+    /* login Container design*/
     .login-container {
       background: #fff;
       padding: 20px;
@@ -67,7 +69,7 @@
       opacity: 0;
       animation: slideIn 1s ease-in-out forwards 0.5s;
     }
-
+    /*Transition for login Container*/
     @keyframes slideIn {
       from { transform: translateX(100%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
@@ -131,16 +133,16 @@
     <h1>--HAIRIFY--</h1>
     <img src="Images/harify.png" alt="logo"> 
   </section>
-
+  <!--Login HTML Code-->
   <div class="login-container">
     <h2>LOG IN</h2>
     <div id="error-msg" class="error-msg"></div>
-
+     <!--TRN Input code-->
     <div class="form-group">
       <label for="trn">TRN</label>
       <input type="text" id="username" placeholder="123-456-789" pattern="\d{3}-\d{3}-\d{3}" title="Enter TRN in the format 123-456-789">
     </div>
-
+    <!--Password Input Code-->
     <div class="form-group">
       <label for="password">Password</label>
       <input type="password" id="password" placeholder="Enter your password">
@@ -151,6 +153,7 @@
     <p><a href="reset.html">Forgot your password?</a></p>
   </div>
 
+  <!--JS Login functions-->
   <script>
     let loginAttempts = 0;
 
@@ -166,7 +169,7 @@
 
       const users = JSON.parse(localStorage.getItem('RegisterData')) || [];
       const user = users.find(u => u.trn === trn && u.password === password);
-
+      /*User Validation Function*/
       if (user) {
         localStorage.setItem('loggedInTRN', user.trn);
         localStorage.setItem('loginAttempts', 0);
