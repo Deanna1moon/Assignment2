@@ -154,7 +154,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <h1 style="font-size: xx-large; color: #fff;">--HAIRIFY--</h1>
-    <img src="Images\harify.png" alt="logo"> 
+    <img src="Images\hairify.png" alt="logo"> 
   </section>
 
   <!--img src="Images\harify.png" alt="logo"--> 
@@ -165,9 +165,10 @@
 
     <div id="error-msg" class="error-msg"></div>
 
+
     <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" placeholder="Enter your username">
+<label for="trn">TRN</label>
+  <input type="text" id="username" placeholder="Enter your TRN" pattern="\d{3}-\d{3}-\d{3}" title="Enter TRN in the format 123-456-789">
     </div>
 
     <div class="form-group">
@@ -179,84 +180,41 @@
      <p>Register to get Member's Only Discounts! <a href="registration.html">Register</a> </p>
   </div>
   
-  //<script>
-      //const validUser = {
-     // username: "admin",
-      //password: "password123"
-    //};
-  
 
-    /*let loginAttempts = 0;
-
-    function handleLogin() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const errorMsg = document.getElementById('error-msg');
-
-      if (!username || !password) {
-        errorMsg.textContent = "Please enter both username and password.";
-        return;
-      }
-
-      if (username === validUser.username && password === validUser.password) {
-        localStorage.setItem('loggedInUser', JSON.stringify({ username }));
-        window.location.href = "products.html";
-      } else {
-        loginAttempts++;
-        errorMsg.textContent = "Invalid username or password. Please try again.";
-
-        if (loginAttempts >= 3) {
-          alert("Too many failed attempts. Redirecting to error page.");
-          window.location.href = "error.html";
-        }
-      }
-    }*/
-  //</script>
-  
-//JS WITH PASSWORD RESET
-<script>
-  const validUser = {
-    username: "admin",
-    password: "password123"
-  };
-
+ <script>
   let loginAttempts = 0;
 
   function handleLogin() {
-    const username = document.getElementById('username').value.trim();
+    const trn = document.getElementById('username').value.trim(); // Username field will be TRN
     const password = document.getElementById('password').value.trim();
     const errorMsg = document.getElementById('error-msg');
 
-    if (!username || !password) {
-      errorMsg.textContent = "Please enter both username and password.";
+    if (!trn || !password) {
+      errorMsg.textContent = "Please enter both TRN and password.";
       return;
     }
 
-    if (username === validUser.username && password === validUser.password) {
-      localStorage.setItem('loggedInUser', JSON.stringify({ username }));
-      window.location.href = "products.html";
+    const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    const user = users.find(u => u.trn === trn && u.password === password);
+
+    if (user) {
+      localStorage.setItem('loggedInTRN', user.trn);
+      localStorage.setItem('loginAttempts', 0);
+      alert(`Welcome back, ${user.firstName}!`);
+      window.location.href = "products.html"; 
     } else {
       loginAttempts++;
-      errorMsg.textContent = "Invalid username or password. Please try again.";
+      errorMsg.textContent = `Invalid TRN or password. Attempt ${loginAttempts} of 3.`;
 
       if (loginAttempts >= 3) {
-        alert("Too many failed attempts. Redirecting to reset password page.");
-        window.location.href = "reset.html";
+        alert("Too many failed login attempts.");
+        loginAttempts = 0; // Reset instead of redirecting to reset.html
       }
     }
   }
-
-  function resetPassword() {
-    const newPassword = prompt("Enter your new password:");
-    if (newPassword) {
-      validUser.password = newPassword;
-      alert("Password has been reset successfully.");
-      loginAttempts = 0; // Reset login attempts after password reset
-    } else {
-      alert("Password reset cancelled.");
-    }
-  }
 </script>
+  
+
 
 
 </body>
