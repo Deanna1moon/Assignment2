@@ -380,12 +380,11 @@
 
 <script>
   window.addEventListener("DOMContentLoaded", function() {
-    const loggedInTRN = localStorage.getItem('loggedInTRN');
-    if (!loggedInTRN) {
-      alert("You must log in first.");
-      window.location.href = "index.html";
-    }
-  });
+const loggedInUser = localStorage.getItem('loggedInUser');
+if (!loggedInUser) {
+  alert("You must log in first.");
+  window.location.href = "index.html";
+}
 </script>
 
 </body>
