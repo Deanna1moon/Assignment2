@@ -8,7 +8,7 @@ A modern front-end e-commerce web application for showcasing and purchasing hair
 
 Deanna Brown(2407306) -Products/Checkout/Wireframe
 Amanda
-Kevin
+Kevin Barnaby(2004408) - dashboard(show user frequency and invoice)
 Jermaine
 
 ## Login Credentials
