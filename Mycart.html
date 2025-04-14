@@ -76,7 +76,7 @@ h1 {
 
     body {
     font-family: Arial, sans-serif;
-    background-image: url('Images/back2.jpg');
+    background-image: url('images/back2.jpg');
 	background-size: cover; 
     background-repeat: no-repeat; 
 	ackground-position: center; 
@@ -202,6 +202,7 @@ h1 {
       <li><a href="products.html">Home</a></li>
       <li><a href="AboutUs.html">About Us</a></li>
       <li><a href="Mycart.html" class="active">My Cart</a></li>
+	   <li><a href="dashboard.html">Dashboard</a></li>
     </ul>
   </nav>
 
@@ -368,7 +369,7 @@ function checkout() {
 
   // Save selected items to 'checkoutCart' and redirect
   localStorage.setItem('checkoutCart', JSON.stringify(filteredCart));
-  window.location.href = "Checkout.html";
+  window.location.href = "checkout.html";
 }
 
 // Attach event listeners once the DOM is fully loaded
