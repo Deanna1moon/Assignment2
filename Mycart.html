@@ -223,6 +223,12 @@ h1 {
   </div>
 
   <script>
+	    // Ensure the user is logged in before allowing cart access
+  const loggedInTRN = localStorage.getItem('loggedInTRN');
+  if (!loggedInTRN) {
+    alert("You must be logged in to access your cart.");
+    window.location.href = "index.html";
+  }
 // This array tracks which cart items are selected for checkout
 let selectedItems = [];
 
