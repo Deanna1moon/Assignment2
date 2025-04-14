@@ -26,7 +26,7 @@ Password: password123
 Download the project as a ZIP or clone it using Git
 
 hosting link:
-https://deanna1moon.github.io/Assignment2
+[https://deanna1moon.github.io/Assignment2](https://deanna1moon.github.io/WebGroup/index.html)
 
 
 ## Tool / Framework	Purpose#
