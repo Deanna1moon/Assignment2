@@ -29,7 +29,7 @@ hosting link:
 https://deanna1moon.github.io/Assignment2
 
 
-#Tool / Framework	Purpose#
+## Tool / Framework	Purpose#
 
 HTML5	Page structure
 CSS3	Styling and layout
@@ -38,7 +38,7 @@ LocalStorage API	In-browser data storage
 Google Fonts	Typography (Playfair Display)
 GitHub	Version control and backup
 
- Key Features
+## Key Features
 -TRN-based login and registration system
 -Cart and checkout with automatic discount/tax calculation
 -Invoice generation and downloadable receipt
