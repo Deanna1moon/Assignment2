@@ -145,7 +145,7 @@
             <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/>
           </svg>
         </label>
-        <input type="text" name="firstname" id="firstname-input" placeholder="First Name" required />
+        <input type="text" name="firstname" id="firstname-input" placeholder="Name" required />
       </div>
 
       <div>
@@ -200,70 +200,55 @@
     </form>
     <p>Already have an account? <a href="index.html">Login here</a>.</p>
   </div>
+<script>
+  const form = document.getElementById('signup-form');
 
-  <script>
-    document.getElementById("signup-form").addEventListener("submit", function (e) {
-      e.preventDefault();
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-      const firstName = document.getElementById("firstname-input").value.trim();
-      const email = document.getElementById("email-input").value.trim();
-      const trn = document.getElementById("trn-input").value.trim();
-      const age = parseInt(document.getElementById("age-input").value);
-      const gender = document.getElementById("gender-input").value;
-      const password = document.getElementById("password-input").value;
-      const repeatPassword = document.getElementById("repeat-password-input").value;
+    const firstName = document.getElementById('firstname-input').value.trim();
+    const email = document.getElementById('email-input').value.trim();
+    const trn = document.getElementById('trn-input').value.trim();
+    const age = parseInt(document.getElementById('age-input').value.trim());
+    const gender = document.getElementById('gender-input').value;
+    const password = document.getElementById('password-input').value;
+    const repeatPassword = document.getElementById('repeat-password-input').value;
 
-      const trnRegex = /^\d{3}-\d{3}-\d{3}$/;
-      if (!trnRegex.test(trn)) {
-          alert("TRN must be in the format 123-456-789.");
-          return;
-      }
+    if (password !== repeatPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
 
-      if (isNaN(age) || age < 18 || age > 120) {
-          alert("Age must be between 18 and 120.");
-          return;
-      }
+    const newUser = {
+      name: firstName,
+      email,
+      trn,
+      age,
+      gender,
+      password
+    };
 
-      if (password !== repeatPassword) {
-          alert("Passwords do not match.");
-          return;
-      }
+    const existingUsers = JSON.parse(localStorage.getItem('RegisterData')) || [];
 
-      const user = {
-          firstName,
-          email,
-          trn,
-          age,
-          gender,
-          password
-      };
+    // Check for duplicate TRN
+    const duplicate = existingUsers.some(user => user.trn === trn);
+    if (duplicate) {
+      alert("A user with this TRN already exists.");
+      return;
+    }
 
-      let users = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+    // Save new user
+    existingUsers.push(newUser);
+    localStorage.setItem('RegisterData', JSON.stringify(existingUsers));
+    alert("Registration successful!");
 
-      const duplicate = users.some(u => u.trn === trn);
-      if (duplicate) {
-          alert("A user with this TRN already exists.");
-          return;
-      }
+    // Optional: Set logged in user (or remove if not needed)
+    // localStorage.setItem("loggedInTRN", trn);
 
-      users.push(user);
-      localStorage.setItem("registeredUsers", JSON.stringify(users));
+    // Redirect to login
+    window.location.href = "index.html";
+  });
+</script>
 
-      alert("Registration successful!");
-      document.getElementById("signup-form").reset();
-    });
-
-    const trnInput = document.getElementById("trn-input");
-    trnInput.addEventListener("input", function () {
-      let value = this.value.replace(/\D/g, "").slice(0, 9);
-      if (value.length >= 6) {
-        this.value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1-$2-$3").replace(/-$/, "");
-      } else if (value.length >= 3) {
-        this.value = value.replace(/(\d{3})(\d{0,3})/, "$1-$2").replace(/-$/, "");
-      } else {
-        this.value = value;
-      }
-    });
-  </script>
 </body>
 </html>
