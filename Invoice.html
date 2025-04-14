@@ -153,7 +153,8 @@
       });
 
       const tax = total * 0.15;
-      const discount = total > 500 ? total * 0.1 : 0;
+
+  const discount = total > 0 ? total * 0.1 : 0; // 10% discount on any subtotal
       const grandTotal = total + tax - discount;
 
       document.getElementById('totalsBox').innerHTML = `
