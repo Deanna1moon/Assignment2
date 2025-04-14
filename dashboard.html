@@ -1,450 +1,510 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dashboard</title>
-<style>
-body {
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-background: #eaf3fb;
-position: relative;
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+		background-size: cover; 
+		background-image: url('images/back2.jpg');
+    background-repeat: no-repeat; 
+	ackground-position: center; 
+    background-attachment: fixed;
+	  
+      margin: 0;
+      padding: 0;
+    }
+         /* Navigation Bar */
+      .navbar {
+          background-color: rgba(255, 0, 0, 0.9);
+          padding: 1em;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .navbar .logo {
+          font-size: 1.5em;
+          color: #fff;
+          font-weight: bold;
+      }
+      .nav-links {
+          list-style: none;
+          display: flex;
+          gap: 1em;
+      }
+      .nav-links li {
+          display: inline;
+      }
+      .nav-links a {
+          text-decoration: none;
+
+          color: white; /* Ensuring white text */
+          font-weight: bold;
+          padding: 14px 25px;
+          transition: 0.3s;
+          transform: translateY(-6%) scale(3.1);
+          border-radius: 5px;
+          box-shadow: #fff;
+      }
+      .nav-links a:hover {
+          transform: translateY(-6%) scale(3.1);
+          background-color:rgba(255, 192, 203, 0.736) ;
+      }
+	   
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Background Slideshow Styles */
-.background-slideshow {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: -1;
-overflow: hidden;
-}
+    /* Background Slideshow */
+    .background-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .slide.active {
+      opacity: 0.5; /* Adjust as desired */
+    }
 
-.slide {
-position: absolute;
-width: 100%;
-height: 100%;
-background-size: cover;
-background-position: center;
-opacity: 0;
-transition: opacity 1.5s ease-in-out;
-}
+    /* Dashboard Layout */
+    .dashboard {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "ask bottle"
+        "profit state";
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
 
-.slide.active {
-opacity: 0.5; /* Adjust opacity to make sure content is readable */
-}
+    h1 {
+      grid-area: header;
+      background-color:  rgba(255, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin: 0;
+      font-size: 28px;
+    }
 
-.dashboard {
-display: grid;
-grid-template-areas:
-"header header"
-"ask bottle"
-"profit state";
-grid-template-columns: 1fr 1fr;
-gap: 20px;
-padding: 20px;
-max-width: 1200px;
-margin: auto;
-background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white to improve readability */
-border-radius: 10px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-h1 {
-grid-area: header;
-background: red;
-color: #fff;
-padding: 10px 20px;
-border-radius: 8px;
-margin: 0;
-font-size: 28px;
-}
-.ask-section, .profit-section, .state-section, .bottle-img {
-background: #fff;
-border-radius: 10px;
-padding: 15px;
-box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-transition: transform 0.3s ease-in-out;
-}
-.ask-section:hover, .profit-section:hover, .state-section:hover {
-transform: scale(1.02);
-}
-.ask-section { grid-area: ask; }
-.profit-section { grid-area: profit; }
-.state-section { grid-area: state; }
-.bottle-img { 
-grid-area: bottle; 
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-}
+    /* Sections for the cards */
+    .ask-section, .bottle-img, .profit-section, .state-section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .ask-section:hover, .bottle-img:hover, .profit-section:hover, .state-section:hover {
+      transform: scale(1.02);
+    }
 
-h2 { margin-bottom: 10px; color: #f40009; }
-.search-container { margin-bottom: 15px; }
-input[type="text"] {
-padding: 8px;
-border: 1px solid #ddd;
-border-radius: 4px;
-margin-right: 10px;
-}
-button {
-background: #f40009;
-color: #fff;
-padding: 8px 12px;
-border: none;
-border-radius: 20px;
-cursor: pointer;
-font-size: 14px;
-}
-button:hover { opacity: 0.9; }
+    .ask-section { grid-area: ask; }
+    .bottle-img { grid-area: bottle; }
+    .profit-section { grid-area: profit; }
+    .state-section { grid-area: state; }
 
-table {
-width: 100%;
-border-collapse: collapse;
-margin-top: 10px;
-}
-th, td {
-padding: 8px;
-text-align: left;
-border-bottom: 1px solid #ddd;
-}
-th { background: #f9f9f9; }
+    h2 {
+      margin-bottom: 10px;
+      color: #f40009;
+    }
 
-.chart-container {
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-margin-top: 15px;
-}
-.chart { flex: 1; min-width: 300px; }
+    /* Buttons & Inputs */
+    .search-container {
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+    button {
+      background: #f40009;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
 
-.pie-charts-container {
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-justify-content: center;
-width: 100%;
-}
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #f9f9f9;
+    }
 
-.pie-chart-wrapper {
-display: flex;
-flex-direction: column;
-align-items: center;
-margin: 10px;
-}
+    /* Stats & Pie Charts */
+    #statsTables {
+      margin-top: 10px;
+    }
+    .chart {
+      margin-top: 10px;
+    }
 
-.pie-title {
-text-align: center;
-margin-bottom: 10px;
-color: #f40009;
-font-weight: bold;
-}
+    /* Toggling stats display */
+    .hidden {
+      display: none;
+    }
 
-.pie-chart {
-width: 200px;
-height: 200px;
-border-radius: 50%;
-position: relative;
-overflow: hidden;
-}
-
-.pie-legend {
-margin-top: 10px;
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-gap: 8px;
-}
-
-.legend-item {
-display: flex;
-align-items: center;
-font-size: 12px;
-}
-
-.legend-color {
-width: 12px;
-height: 12px;
-margin-right: 5px;
-border-radius: 3px;
-}
-
-.hidden {
-display: none;
-}
-</style>
+    /* Scrollable user invoices */
+    #userInvoiceResults {
+      max-height: 250px; 
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body>
-<!-- Background Slideshow -->
-<div class="background-slideshow">
-<div class="slide" style="background-image: url('slide1.jpg');"></div>
-<div class="slide" style="background-image: url('slide2.jpg');"></div>
-<div class="slide" style="background-image: url('slide3.jpg');"></div>
-<div class="slide" style="background-image: url('slide4.jpg');"></div>
-<div class="slide" style="background-image: url('slide5.jpg');"></div>
-</div>
 
-<!-- Dashboard Content -->
-<div class="dashboard">
-<h1>Dashboard</h1>
 
-<div class="ask-section">
-<h2>User Frequency</h2>
-<div class="search-container">
-<button id="toggleStatsBtn" onclick="toggleUserStats()">Show User Statistics</button>
-</div>
-<div class="chart-container hidden" id="userStats"></div>
-</div>
 
-<div class="pie-charts-container" id="pieChartsContainer">
-<div class="pie-charts-container hidden" id="pieCharts"></div>
-</div>
 
-<div class="profit-section">
-<h2>Invoice Search</h2>
-<div class="search-container">
-<input type="text" id="trnSearch" placeholder="Enter TRN to search invoices">
-<button onclick="ShowInvoices()">Search Invoices</button>
-</div>
-<div id="invoiceResults"></div>
-</div>
+  <nav class="navbar">
+    <div class="logo">HAIRIFY</div>
+    <ul class="nav-links">
+      <li><a href="products.html">Home</a></li>
+      <li><a href="AboutUs.html">About Us</a></li>
+      <li><a href="Mycart.html" class="active">My Cart</a></li>
+	   <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </nav>
 
-<div class="state-section">
-<h2>User Invoices</h2>
-<div class="search-container">
-<input type="text" id="userTrn" placeholder="Enter User TRN">
-<button onclick="GetUserInvoices()">Get User Invoices</button>
-</div>
-<div id="userInvoiceResults"></div>
-</div>
-</div>
 
-<script>
-let statsVisible = false;
-let currentSlide = 0;
+  <!-- Background Slideshow -->
+  <div class="background-slideshow">
+    <div class="slide" style="background-image: url('slide1.jpg');"></div>
+    <div class="slide" style="background-image: url('slide2.jpg');"></div>
+    <div class="slide" style="background-image: url('slide3.jpg');"></div>
+    <div class="slide" style="background-image: url('slide4.jpg');"></div>
+  </div>
 
-function toggleUserStats() {
-statsVisible = !statsVisible;
-const btn = document.getElementById('toggleStatsBtn');
-const statsDiv = document.getElementById('userStats');
-const pieChartsDiv = document.getElementById('pieCharts');
+  <div class="dashboard">
+    <h1>Dashboard</h1>
 
-if (statsVisible) {
-btn.textContent = 'Hide User Statistics';
-statsDiv.classList.remove('hidden');
-pieChartsDiv.classList.remove('hidden');
-ShowUserFrequency();
-} else {
-btn.textContent = 'Show User Statistics';
-statsDiv.classList.add('hidden');
-pieChartsDiv.classList.add('hidden');
-}
-}
+    <!-- ask-section: user frequency tables -->
+    <div class="ask-section">
+      <h2>User Frequency </h2>
+      <button id="statsBtn" onclick="toggleUserStats()">Show User Statistics</button>
+      <div id="statsTables" class="hidden"><!-- Tables go here --></div>
+    </div>
 
-function initializeSampleData() {
-if (!localStorage.getItem('RegisterData')) {
-const sampleUsers = [
-{ trn: '123456789', name: 'Kemar Hinds', gender: 'Male', age: 28 },
-{ trn: '987654321', name: 'Janet Miles', gender: 'Female', age: 25 },
-{ trn: '456789123', name: 'Alexis John', gender: 'Other', age: 22 },
-{ trn: '789123456', name: 'Sarah Lewis', gender: 'Female', age: 32 },
-{ trn: '321654987', name: 'Aston Thomas', gender: 'Male', age: 19 },
-{ trn: '654987321', name: 'Kyle Taylor', gender: 'Other', age: 31 }
-];
-localStorage.setItem('RegisterData', JSON.stringify(sampleUsers));
-}
+    <!-- bottle-img: user frequency pie charts -->
+    <div class="bottle-img">
+   
+      <div id="statsCharts" class="hidden"><!-- Pie charts go here --></div>
+    </div>
 
-if (!localStorage.getItem('AllInvoices')) {
-const sampleInvoices = [
-{ trn: '123456789', invoiceId: 'INV001', date: '2025-05-15', amount: 150.00 },
-{ trn: '123456789', invoiceId: 'INV002', date: '2025-06-20', amount: 75.50 },
-{ trn: '987654321', invoiceId: 'INV003', date: '2025-05-18', amount: 200.00 },
-{ trn: '456789123', invoiceId: 'INV004', date: '2025-07-01', amount: 89.99 },
-{ trn: '789123456', invoiceId: 'INV005', date: '2025-06-15', amount: 120.00 },
-{ trn: '321654987', invoiceId: 'INV006', date: '2025-07-10', amount: 45.25 },
-{ trn: '654987321', invoiceId: 'INV007', date: '2025-05-30', amount: 180.75 }
-];
-localStorage.setItem('AllInvoices', JSON.stringify(sampleInvoices));
-}
-}
+    <!-- profit-section: invoice search by TRN -->
+    <div class="profit-section">
+      <h2>Invoice Search</h2>
+      <div class="search-container">
+        <input type="text" id="trnSearch" placeholder="Enter TRN">
+        <button onclick="ShowInvoices()">Search</button>
+      </div>
+      <div id="invoiceResults"></div>
+    </div>
 
-function createPieChart(data, title, colors) {
-// Create container elements
-const container = document.createElement('div');
-container.className = 'pie-chart-wrapper';
-  
-// Add title
-const titleElement = document.createElement('h3');
-titleElement.className = 'pie-title';
-titleElement.textContent = title;
-container.appendChild(titleElement);
-  
-// Create pie chart using conic-gradient
-const chartElement = document.createElement('div');
-chartElement.className = 'pie-chart';
-  
-// Calculate gradient stops
-const total = Object.values(data).reduce((sum, val) => sum + val, 0);
-let cumulativePercent = 0;
-const gradientStops = Object.entries(data).map(([_, value], i) => {
-const percent = (value / total) * 100;
-const stop = `${colors[i % colors.length]} ${cumulativePercent}% ${cumulativePercent += percent}%`;
-return stop;
-});
-  
-chartElement.style.background = `conic-gradient(${gradientStops.join(', ')})`;
-container.appendChild(chartElement);
-  
-// Add legend
-const legendElement = document.createElement('div');
-legendElement.className = 'pie-legend';
-  
-Object.entries(data).forEach(([label, value], i) => {
-const percent = Math.round((value / total) * 100);
-legendElement.innerHTML += `
-<div class="legend-item">
-<span class="legend-color" style="background:${colors[i % colors.length]}"></span>
-${label}: ${value} (${percent}%)
-</div>
-`;
-});
-  
-container.appendChild(legendElement);
-return container;
-}
+    <!-- state-section: user invoices for the logged in user only -->
+    <div class="state-section">
+      <h2>User Invoices (Current User)</h2>
+      <div id="userInvoiceResults"></div>
+    </div>
+  </div>
 
-function ShowUserFrequency() {
-initializeSampleData();
-const users = JSON.parse(localStorage.getItem('RegisterData'));
-const genderCounts = { Male: 0, Female: 0, Other: 0 };
-const ageGroups = { '18-25': 0, '26-35': 0, '36-50': 0, '50+': 0 };
+  <script>
+    console.log("RegisterData:", localStorage.getItem('RegisterData'));
+    console.log("Invoices:", localStorage.getItem('invoices'));
+    console.log("loggedInTRN:", localStorage.getItem('loggedInTRN'));
 
-users.forEach(user => {
-genderCounts[user.gender]++;
-if (user.age >= 18 && user.age <= 25) ageGroups['18-25']++;
-else if (user.age <= 35) ageGroups['26-35']++;
-else if (user.age <= 50) ageGroups['36-50']++;
-else ageGroups['50+']++;
-});
+    /*******************************************************
+     * Slideshow
+     *******************************************************/
+    let currentSlide = 0;
+    function startSlideshow() {
+      const slides = document.querySelectorAll('.slide');
+      const totalSlides = slides.length;
 
-const userStatsDiv = document.getElementById('userStats');
-userStatsDiv.innerHTML = `
-<div class="chart">
-<h3>Gender Distribution</h3>
-<table>
-<thead><tr><th>Gender</th><th>Count</th></tr></thead>
-<tbody>${Object.entries(genderCounts).map(([gender, count]) => `<tr><td>${gender}</td><td>${count}</td></tr>`).join('')}</tbody>
-</table>
-</div>
-<div class="chart">
-<h3>Age Group Distribution</h3>
-<table>
-<thead><tr><th>Age Group</th><th>Count</th></tr></thead>
-<tbody>${Object.entries(ageGroups).map(([group, count]) => `<tr><td>${group}</td><td>${count}</td></tr>`).join('')}</tbody>
-</table>
-</div>`;
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[index].classList.add('active');
+      }
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
+      }
+      showSlide(currentSlide);
+      setInterval(nextSlide, 4000);
+    }
 
-const pieChartsContainer = document.getElementById('pieCharts');
-pieChartsContainer.innerHTML = '';
+    window.onload = function() {
+      startSlideshow();
+      GetUserInvoices(); // load the signed in user's invoices initially
+    };
 
-const genderChart = createPieChart(
-genderCounts, 
-'Gender Distribution', 
-['#ff6384', '#36a2eb', '#ffce56']
-);
-pieChartsContainer.appendChild(genderChart);
+    /* Toggle show/hide user frequency stats*/
+    let statsVisible = false;
+    function toggleUserStats() {
+      statsVisible = !statsVisible;
+      const btn = document.getElementById('statsBtn');
+      const tables = document.getElementById('statsTables');
+      const charts = document.getElementById('statsCharts');
 
-const ageChart = createPieChart(
-ageGroups, 
-'Age Group Distribution', 
-['#4bc0c0', '#9966ff', '#ff9f40', '#8ac249']
-);
-pieChartsContainer.appendChild(ageChart);
-}
+      if (statsVisible) {
+        btn.textContent = "Hide User Statistics";
+        tables.classList.remove('hidden');
+        charts.classList.remove('hidden');
+        ShowUserFrequency();
+      } else {
+        btn.textContent = "Show User Statistics";
+        tables.classList.add('hidden');
+        charts.classList.add('hidden');
+      }
+    }
 
-function ShowInvoices() {
-initializeSampleData();
-const trn = document.getElementById('trnSearch').value.trim();
-const invoices = JSON.parse(localStorage.getItem('AllInvoices'));
-const filteredInvoices = trn ? invoices.filter(i => i.trn.includes(trn)) : invoices;
+    function ShowUserFrequency() {
+      const users = JSON.parse(localStorage.getItem('RegisterData')) || [];
+      const genderCounts = { Male: 0, Female: 0, Other: 0 };
+      const ageGroups = { '18-25': 0, '26-35': 0, '36-50': 0, '50+': 0 };
 
-const resultsDiv = document.getElementById('invoiceResults');
-resultsDiv.innerHTML = filteredInvoices.length === 0
-? '<p>No invoices found.</p>'
-: `<table><thead><tr><th>Invoice ID</th><th>TRN</th><th>Date</th><th>Amount</th></tr></thead><tbody>${
-filteredInvoices.map(i => `<tr><td>${i.invoiceId}</td><td>${i.trn}</td><td>${i.date}</td><td>$${i.amount.toFixed(2)}</td></tr>`).join('')
-}</tbody></table>`;
-}
+      users.forEach(u => {
+        const g = u.gender || 'Other';
+        if (genderCounts[g] !== undefined) {
+          genderCounts[g]++;
+        } else {
+          genderCounts.Other++;
+        }
 
-function GetUserInvoices() {
-initializeSampleData();
-const trn = document.getElementById('userTrn').value.trim();
-const invoices = JSON.parse(localStorage.getItem('AllInvoices'));
-const userInvoices = invoices.filter(i => i.trn === trn);
+        const age = parseInt(u.age);
+        if (age >= 18 && age <= 25) {
+          ageGroups['18-25']++;
+        } else if (age <= 35) {
+          ageGroups['26-35']++;
+        } else if (age <= 50) {
+          ageGroups['36-50']++;
+        } else {
+          ageGroups['50+']++;
+        }
+      });
 
-const resultsDiv = document.getElementById('userInvoiceResults');
-resultsDiv.innerHTML = userInvoices.length === 0
-? '<p>No invoices found for this user.</p>'
-: `<h3>Invoices for TRN: ${trn}</h3><table><thead><tr><th>Invoice ID</th><th>Date</th><th>Amount</th></tr></thead><tbody>${
-userInvoices.map(i => `<tr><td>${i.invoiceId}</td><td>${i.date}</td><td>$${i.amount.toFixed(2)}</td></tr>`).join('')
-}</tbody></table>`;
-}
+      // Build the table portion
+      const tablesDiv = document.getElementById('statsTables');
+      tablesDiv.innerHTML = `
+        <div>
+          <h3>Gender Distribution</h3>
+          <table>
+            <thead><tr><th>Gender</th><th>Count</th></tr></thead>
+            <tbody>
+              ${Object.entries(genderCounts).map(([gg, cc]) => `
+                <tr><td>${gg}</td><td>${cc}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:10px;">
+          <h3>Age Group Distribution</h3>
+          <table>
+            <thead><tr><th>Age Range</th><th>Count</th></tr></thead>
+            <tbody>
+              ${Object.entries(ageGroups).map(([rng, ct]) => `
+                <tr><td>${rng}</td><td>${ct}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
 
-function handleRegistration(registrationData) {
-let users = JSON.parse(localStorage.getItem('RegisterData')) || [];
-const existingUserIndex = users.findIndex(user => user.trn === registrationData.trn);
+      // Build the pie chart portion
+      const chartsDiv = document.getElementById('statsCharts');
+      chartsDiv.innerHTML = ''; // clear
 
-if (existingUserIndex !== -1) {
-users[existingUserIndex] = registrationData;
-} else {
-users.push(registrationData);
-}
+      const genderChart = createPieChart(
+        genderCounts,
+        'Gender Distribution',
+        ['#ff6384', '#36a2eb', '#ffce56']
+      );
+      chartsDiv.appendChild(genderChart);
 
-localStorage.setItem('RegisterData', JSON.stringify(users));
-alert('Registration successful!');
-window.location.href = 'dashboard new v2.html';
-}
+      const ageChart = createPieChart(
+        ageGroups,
+        'Age Group Distribution',
+        ['#4bc0c0', '#9966ff', '#ff9f40', '#8ac249']
+      );
+      chartsDiv.appendChild(ageChart);
+    }
 
-// Slideshow functionality
-function startSlideshow() {
-const slides = document.querySelectorAll('.slide');
-const totalSlides = slides.length;
-  
-function showSlide(index) {
-slides.forEach(slide => slide.classList.remove('active'));
-slides[index].classList.add('active');
-}
-  
-function nextSlide() {
-currentSlide = (currentSlide + 1) % totalSlides;
-showSlide(currentSlide);
-}
-  
-// Initialize first slide
-showSlide(currentSlide);
-  
-// Change slide every 5 seconds
-setInterval(nextSlide, 5000);
-}
+    /*createPieChart: helper for conic-gradient pie*/
+    function createPieChart(data, title, colors) {
+      const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.flexDirection = 'column';
+      container.style.alignItems = 'center';
+      container.style.margin = '10px';
 
-window.onload = function() {
-initializeSampleData();
-startSlideshow(); // Start the background slideshow
-  
-const urlParams = new URLSearchParams(window.location.search);
-const registrationData = urlParams.get('registrationData');
+      const titleEl = document.createElement('h3');
+      titleEl.style.color = 'red';
+      titleEl.textContent = title;
+      container.appendChild(titleEl);
 
-if (registrationData) {
-try {
-const data = JSON.parse(decodeURIComponent(registrationData));
-handleRegistration(data);
-} catch (e) {
-console.error('Error parsing registration data:', e);
-}
-}
-};
-</script>
+      const chartEl = document.createElement('div');
+      chartEl.style.width = '200px';
+      chartEl.style.height = '200px';
+      chartEl.style.borderRadius = '50%';
+      chartEl.style.overflow = 'hidden';
+      chartEl.style.position = 'relative';
+
+      const total = Object.values(data).reduce((sum, val) => sum + val, 0);
+      let cumulativePercent = 0;
+      const gradientStops = Object.entries(data).map(([_, value], i) => {
+        const percent = total === 0 ? 0 : (value / total) * 100;
+        const stop = `${colors[i % colors.length]} ${cumulativePercent}% ${cumulativePercent += percent}%`;
+        return stop;
+      });
+      chartEl.style.background = `conic-gradient(${gradientStops.join(', ')})`;
+      container.appendChild(chartEl);
+
+      // Legend
+      const legend = document.createElement('div');
+      legend.style.display = 'flex';
+      legend.style.flexWrap = 'wrap';
+      legend.style.justifyContent = 'center';
+      legend.style.gap = '8px';
+      legend.style.marginTop = '10px';
+
+      Object.entries(data).forEach(([lbl, val], i) => {
+        const percent = total === 0 ? 0 : Math.round((val / total) * 100);
+        const legendItem = document.createElement('div');
+        legendItem.style.display = 'flex';
+        legendItem.style.alignItems = 'center';
+        legendItem.style.fontSize = '12px';
+
+        const colorBox = document.createElement('span');
+        colorBox.style.width = '12px';
+        colorBox.style.height = '12px';
+        colorBox.style.borderRadius = '3px';
+        colorBox.style.marginRight = '5px';
+        colorBox.style.backgroundColor = colors[i % colors.length];
+
+        legendItem.appendChild(colorBox);
+        legendItem.appendChild(
+          document.createTextNode(`${lbl}: ${val} (${percent}%)`)
+        );
+        legend.appendChild(legendItem);
+      });
+      container.appendChild(legend);
+
+      return container;
+    }
+
+    /*ShowInvoices: search a specific TRN, otherwise no results*/
+    function ShowInvoices() {
+      const trn = document.getElementById('trnSearch').value.trim();
+      const allInv = JSON.parse(localStorage.getItem('invoices')) || {};
+      const resDiv = document.getElementById('invoiceResults');
+
+      if (!trn) {
+        // No typed TRN => no invoices
+        resDiv.innerHTML = "<p>No invoices found.</p>";
+        return;
+      }
+
+      // If TRN typed, try to find them
+      const found = allInv[trn] || [];
+      if (found.length === 0) {
+        resDiv.innerHTML = "<p>No invoices found.</p>";
+        return;
+      }
+
+      resDiv.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Invoice ID</th><th>Date</th><th>Tax</th><th>Discount</th><th>Final</th></tr>
+          </thead>
+          <tbody>
+            ${found.map(iv => `
+              <tr>
+                <td>${iv.id}</td>
+                <td>${iv.date}</td>
+                <td>$${iv.tax}</td>
+                <td>-$${iv.discount}</td>
+                <td>$${iv.finalTotal || iv.total}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    /* GetUserInvoices: strictly for loggedInTRN*/
+    function GetUserInvoices() {
+      const trn = localStorage.getItem('loggedInTRN');
+      const invoices = JSON.parse(localStorage.getItem('invoices')) || {};
+      const div = document.getElementById('userInvoiceResults');
+
+      if (!trn) {
+        div.innerHTML = "<p>No TRN found. Are you logged in?</p>";
+        return;
+      }
+
+      const userInvoices = invoices[trn] || [];
+      if (userInvoices.length === 0) {
+        div.innerHTML = "<p>No invoices for this user.</p>";
+        return;
+      }
+
+      div.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Invoice ID</th><th>Date</th><th>Total</th><th>Tax</th><th>Discount</th><th>Final</th></tr>
+          </thead>
+          <tbody>
+            ${userInvoices.map(i => `
+              <tr>
+                <td>${i.id}</td>
+                <td>${i.date}</td>
+                <td>$${i.total}</td>
+                <td>$${i.tax}</td>
+                <td>-$${i.discount}</td>
+                <td>$${i.finalTotal}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+  </script>
 </body>
 </html>
