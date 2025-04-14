@@ -333,28 +333,29 @@
       document.getElementById("product-modal").style.display = "none";
     }
 // Function to add a product to the shopping cart
-    function addToCart(name, price, image) {
-      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      if (!loggedInUser) {
-        alert("You must log in first.");
-        window.location.href = "login.html";
-        return;
-      }
- // Retrieve existing cart from localStorage, or create a new one
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-	  
-      const existingItem = cart.find(item => item.name === name);
-	  
-	  // If already in cart, increment quantity; otherwise, add new item
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        cart.push({ name, price, image, quantity: 1 });
-      }
-  // Save updated cart to localStorage
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`${name} has been added to your cart!`);
-    }
+function addToCart(name, price, image) {
+  const loggedInTRN = localStorage.getItem("loggedInTRN");
+  if (!loggedInTRN) {
+    alert("You must log in first.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existingItem = cart.find(item => item.name === name);
+
+  if (existingItem) {
+    existingItem.quantity++;
+  } else {
+    cart.push({ name, price, image, quantity: 1 });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert(`${name} has been added to your cart!`);
+}
+
+
+
 // This closes the modal if the user clicks anywhere outside the modal content
     window.onclick = function(event) {
       const modal = document.getElementById("product-modal");
@@ -372,20 +373,17 @@
       setTimeout(showSlides, 4000);// Loop the slideshow every 4 seconds
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      displayProducts();
-      showSlides();
-    });
+window.addEventListener("DOMContentLoaded", function() {
+  const loggedInTRN = localStorage.getItem("loggedInTRN");
+  if (!loggedInTRN) {
+    alert("You must log in first.");
+    window.location.href = "index.html";
+    return;
+  }
+});
+
   </script>
-<script>
-  window.addEventListener("DOMContentLoaded", function() {
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (!loggedInUser) {
-      alert("You must log in first.");
-      window.location.href = "index.html";
-    }
-  });
-</script>
+
 
 
 </body>
