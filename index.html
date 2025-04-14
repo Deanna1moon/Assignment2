@@ -211,8 +211,9 @@
         }
       }
     }
-  //</script>
+  </script>
   */
+  
 //JS WITH PASSWORD RESET
 <script>
   const validUser = {
@@ -241,7 +242,7 @@
 
       if (loginAttempts >= 3) {
         alert("Too many failed attempts. Redirecting to reset password page.");
-        window.location.href = "reset-password.html";
+        window.location.href = "reset.html";
       }
     }
   }
@@ -252,6 +253,7 @@
       validUser.password = newPassword;
       alert("Password has been reset successfully.");
       loginAttempts = 0; // Reset login attempts after password reset
+      window.location.href = "index.html";
     } else {
       alert("Password reset cancelled.");
     }
