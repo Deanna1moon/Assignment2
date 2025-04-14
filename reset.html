@@ -117,7 +117,7 @@
         return;
       }
 
-      const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+const users = JSON.parse(localStorage.getItem('RegisterData')) || [];
       const userIndex = users.findIndex(u => u.trn === trn);
 
       if (userIndex === -1) {
