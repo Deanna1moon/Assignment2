@@ -4,18 +4,7 @@
   <meta charset="UTF-8">
   <title>Login Error - HAIRIFY</title>
   <style>
-    /*body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      color: #333;
-    }*/
-
-     body {
+    body {
       font-family: Arial, sans-serif;
       color: #333;
       background-color: #fff;
@@ -26,21 +15,22 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      opacity: 0;
+    }
 
-     .hero {
+    .hero {
       background-color: rgba(255, 0, 0, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       height: 40vh;
-      margin-top: -310px;
     }
 
-    .hero h1{
-      margin-bottom: -100px;
+    .hero h1 {
+      color: #fff;
+      font-size: xx-large;
     }
+
     .reset-container {
       width: 400px;
       padding: 20px;
@@ -49,23 +39,27 @@
       border-radius: 8px;
       text-align: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
     }
-    .reset-container h1 {
+
+    .reset-container h2 {
       color: red;
       margin-bottom: 10px;
     }
+
     .reset-container p {
       margin-bottom: 20px;
-    } 
+    }
 
     input {
-      width: 30%;
-      padding:10px;
+      width: 100%;
+      padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      margin-bottom: 10px;
       transition: box-shadow 0.3s ease-in-out;
     }
-    
+
     button {
       padding: 10px 20px;
       background-color: red;
@@ -74,9 +68,9 @@
       font-size: 16px;
       border-radius: 4px;
       cursor: pointer;
-      transition: transform 0.3s, ease-in-out, box-shadow 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
-    
+
     button:hover {
       transform: translateY(-2px);
       box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.4);
@@ -85,11 +79,11 @@
 </head>
 <body>
 
-   <!-- Hero Section -->
+  <!-- Hero Section -->
   <section class="hero">
-    <h1 style="font-size: xx-large; color: #fff;">--HAIRIFY--</h1>
+    <h1>--HAIRIFY--</h1>
   </section>
-  
+
   <div class="reset-container">
     <h2>Reset Password</h2>
     <input type="password" id="new-password" placeholder="Enter new password">
