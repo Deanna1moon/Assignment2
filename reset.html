@@ -99,37 +99,38 @@
   </div>
 
   <script>
-    function resetPassword() {
-      const trn = document.getElementById('trn').value.trim();
-      const newPassword = document.getElementById('new-password').value.trim();
-      const confirmPassword = document.getElementById('confirm-password').value.trim();
-      const errorMsg = document.getElementById('error-msg');
+function resetPassword() {
+  const trn = document.getElementById('trn').value.trim();
+  const newPassword = document.getElementById('new-password').value.trim();
+  const confirmPassword = document.getElementById('confirm-password').value.trim();
+  const errorMsg = document.getElementById('error-msg');
 
-      errorMsg.textContent = '';
+  errorMsg.textContent = '';
 
-      if (!trn || !newPassword || !confirmPassword) {
-        errorMsg.textContent = "All fields are required.";
-        return;
-      }
+  if (!trn || !newPassword || !confirmPassword) {
+    errorMsg.textContent = "All fields are required.";
+    return;
+  }
 
-      if (newPassword !== confirmPassword) {
-        errorMsg.textContent = "Passwords do not match.";
-        return;
-      }
+  if (newPassword !== confirmPassword) {
+    errorMsg.textContent = "Passwords do not match.";
+    return;
+  }
 
-const users = JSON.parse(localStorage.getItem('RegisterData')) || [];
-      const userIndex = users.findIndex(u => u.trn === trn);
+  const users = JSON.parse(localStorage.getItem('RegisterData')) || [];
+  const userIndex = users.findIndex(u => u.trn === trn);
 
-      if (userIndex === -1) {
-        errorMsg.textContent = "TRN not found.";
-        return;
-      }
+  if (userIndex === -1) {
+    errorMsg.textContent = "TRN not found.";
+    return;
+  }
 
-      users[userIndex].password = newPassword;
-      localStorage.setItem('registeredUsers', JSON.stringify(users));
-      alert("Password has been reset successfully.");
-      window.location.href = "index.html";
-    }
+  users[userIndex].password = newPassword;
+  localStorage.setItem('RegisterData', JSON.stringify(users)); // ✅ fixed key name
+  alert("Password has been reset successfully.");
+  window.location.href = "index.html";
+}
+
   </script>
 
 </body>
