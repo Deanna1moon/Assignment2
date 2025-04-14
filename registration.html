@@ -243,19 +243,19 @@
     }
 
     // Save new user
-   // Save new user
-existingUsers.push(newUser);
-localStorage.setItem('RegisterData', JSON.stringify(existingUsers));
+    existingUsers.push(newUser);
+    localStorage.setItem('RegisterData', JSON.stringify(existingUsers));
 
-// Set logged in user (THIS IS THE FIX)
-localStorage.setItem("loggedInTRN", trn);
+    // Set logged in user
+    localStorage.setItem("loggedInTRN", trn);
 
-alert("Registration successful!");
+    alert("Registration successful!");
 
-// Redirect to login
-window.location.href = "index.html";
-
+    // Redirect to login
+    window.location.href = "index.html";
+  });
 </script>
+
 
 </body>
 </html>
