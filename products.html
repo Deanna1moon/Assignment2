@@ -377,15 +377,16 @@
       showSlides();
     });
   </script>
-
 <script>
   window.addEventListener("DOMContentLoaded", function() {
-const loggedInUser = localStorage.getItem('loggedInUser');
-if (!loggedInUser) {
-  alert("You must log in first.");
-  window.location.href = "index.html";
-}
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+      alert("You must log in first.");
+      window.location.href = "index.html";
+    }
+  });
 </script>
+
 
 </body>
 </html>
