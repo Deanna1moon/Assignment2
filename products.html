@@ -21,12 +21,12 @@
       body {
           font-family: Arial, sans-serif;
           margin: 0;
-	 background: white;
-	background-image: url('Images/back2.jpg');
-	background-repeat: no-repeat; 
-	background-size: cover; 
+		  background: white;
+		  	background-image: url('images/back2.jpg');
+			    background-repeat: no-repeat; 
+				background-size: cover; 
 	ackground-position: center; 
-   	 background-attachment: fixed;
+    background-attachment: fixed;
           padding: 0;
           background-color: rgba(128, 128, 128, 0.156);
       }
@@ -68,6 +68,164 @@
           background-color:rgba(255, 192, 203, 0.736) ;
       }
 	  
+	  
+.hero {
+  position: relative;
+  overflow: hidden;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slideshow-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.hero-text {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+      /* Products Section */
+      .products-container {
+          max-width: 1200px;
+          margin: -50px auto 20px auto;
+          background-color: white;
+          padding: 2em;
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .product-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 1em;
+      }
+      .product-card {
+          background-color: white;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          overflow: hidden;
+          transition: 0.3s;
+          transform: translateY(-3%);
+          text-align: center;
+          padding: 1em;
+      }
+      .product-card:hover {
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+          transform: translateY(-3%) scale(1.04);
+      }
+      .product-image img {
+          width: 90%;
+          height: auto;
+      }
+      .btn-add-cart {
+          background-color: red;
+          color: white;
+          border: none;
+          padding: 0.5em 1em;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+      .btn-add-cart:hover {
+          background-color: red;
+          transform: translateY(-6%) scale(1.0);
+          box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.4);
+      }
+    /* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; /* Added this line */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content img {
+    width: 80%;
+	padding: 30px 30px;
+
+	background-color: rgba(255, 0, 0, 0.1);
+
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 1em;
+    border-radius: 10px;
+}
+
+.modal-content h2 {
+    font-size: 1.6em;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
 
 
    </style>
@@ -82,7 +240,6 @@
       <li><a href="products.html" class="active">Products</a></li>
       <li><a href="AboutUs.html">About Us</a></li>
       <li><a href="Mycart.html">My Cart</a></li>
-      <li><a href="dashboard.html">My Cart</a></li>
     </ul>
   </nav>
 
