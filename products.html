@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -297,7 +296,7 @@
         card.setAttribute("data-image", product.image);
         card.setAttribute("onclick", "showProductDetails(this)");
 
-        card.innerHTML = `
+        card.innerHTML = 
           <div class="product-image">
             <img src="${product.image}" alt="${product.name}">
           </div>
@@ -306,7 +305,7 @@
             <p class="price">$${product.price}</p>
             <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${product.name}', ${product.price}, '${product.image}');">Add to Cart</button>
           </div>
-        `;
+        ;
 
         container.appendChild(card);
       });
@@ -318,13 +317,13 @@
       const image = card.getAttribute("data-image");
       const description = card.getAttribute("data-description");
 
-      document.getElementById("modal-product-details").innerHTML = `
+      document.getElementById("modal-product-details").innerHTML = 
         <h2>${name}</h2>
         <img src="${image}" alt="${name}" style="max-width:100%;">
         <p class="price">$${price}</p>
         <p>${description}</p>
         <button class="btn-add-cart" onclick="addToCart('${name}', ${price}, '${image}'); closeModal();">Add to Cart</button>
-      `;
+      ;
 	  // Show the modal
       document.getElementById("product-modal").style.display = "flex";
     }
@@ -333,29 +332,28 @@
       document.getElementById("product-modal").style.display = "none";
     }
 // Function to add a product to the shopping cart
-function addToCart(name, price, image) {
-  const loggedInTRN = localStorage.getItem("loggedInTRN");
-  if (!loggedInTRN) {
-    alert("You must log in first.");
-    window.location.href = "index.html";
-    return;
-  }
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const existingItem = cart.find(item => item.name === name);
-
-  if (existingItem) {
-    existingItem.quantity++;
-  } else {
-    cart.push({ name, price, image, quantity: 1 });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert(`${name} has been added to your cart!`);
-}
-
-
-
+    function addToCart(name, price, image) {
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (!loggedInUser) {
+        alert("You must log in first.");
+        window.location.href = "login.html";
+        return;
+      }
+ // Retrieve existing cart from localStorage, or create a new one
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+	  
+      const existingItem = cart.find(item => item.name === name);
+	  
+	  // If already in cart, increment quantity; otherwise, add new item
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ name, price, image, quantity: 1 });
+      }
+  // Save updated cart to localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(${name} has been added to your cart!);
+    }
 // This closes the modal if the user clicks anywhere outside the modal content
     window.onclick = function(event) {
       const modal = document.getElementById("product-modal");
@@ -373,17 +371,20 @@ function addToCart(name, price, image) {
       setTimeout(showSlides, 4000);// Loop the slideshow every 4 seconds
     }
 
-window.addEventListener("DOMContentLoaded", function() {
-  const loggedInTRN = localStorage.getItem("loggedInTRN");
-  if (!loggedInTRN) {
-    alert("You must log in first.");
-    window.location.href = "index.html";
-    return;
-  }
-});
-
+    window.addEventListener("DOMContentLoaded", () => {
+      displayProducts();
+      showSlides();
+    });
   </script>
-
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+      alert("You must log in first.");
+      window.location.href = "index.html";
+    }
+  });
+</script>
 
 
 </body>
